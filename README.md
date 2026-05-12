@@ -113,7 +113,7 @@ The ID data are split into:
 - calibration set
 - test set
 
-### ID and Out-of-Distribution Datasets
+### Out-of-Distribution Datasets
 
 The external OOD datasets include:
 
