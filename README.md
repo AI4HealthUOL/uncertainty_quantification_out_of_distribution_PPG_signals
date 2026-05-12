@@ -113,7 +113,7 @@ The ID data are split into:
 - calibration set
 - test set
 
-### Out-of-Distribution Datasets
+### ID and Out-of-Distribution Datasets
 
 The external OOD datasets include:
 
@@ -171,206 +171,26 @@ The main findings of the paper are:
 4. Conformal Prediction and Temperature Scaling provide the most consistent recalibration improvements.
 5. Predictive performance and uncertainty reliability both degrade under OOD conditions, showing that ID evaluation alone is not sufficient for trustworthy cuffless BP estimation.
 
----
 
-## Repository Structure
-
-A typical structure of this repository is expected to be:
-
-```text
-.
-├── data/
-│   └── README.md
-├── models/
-│   └── xresnet1d_mcd.py
-├── training/
-│   └── train.py
-├── evaluation/
-│   └── evaluate.py
-├── calibration/
-│   ├── conformal_prediction.py
-│   ├── temperature_scaling.py
-│   └── isotonic_regression.py
-├── utils/
-│   └── metrics.py
-├── requirements.txt
-└── README.md
-```
-
-Please adapt the folder names if your local repository uses a different structure.
-
----
-
-## Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/AI4HealthUOL/uncertainty_quantification_out_of_distribution_PPG_signals.git
-cd uncertainty_quantification_out_of_distribution_PPG_signals
-```
-
-Create a Python environment:
-
-```bash
-conda create -n uq_ood_ppg python=3.10
-conda activate uq_ood_ppg
-```
-
-Install the required packages:
-
-```bash
-pip install -r requirements.txt
-```
-
-If `requirements.txt` is not yet available, install the main dependencies manually:
-
-```bash
-pip install numpy pandas scipy scikit-learn torch pytorch-lightning matplotlib tqdm
-```
-
----
-
-## Data Preparation
-
-The raw datasets are not included in this repository. Users should download the required datasets from their original sources and follow the preprocessing pipeline described in the related publications.
-
-This project uses preprocessed PPG segments and BP labels. The expected input format is typically:
-
-- PPG signal array
-- SBP label
-- DBP label
-- dataset split information
-- subject or patient identifier
-- optional metadata
-
-For preprocessing details, please refer to:
-
-> Moulaeifard, Mohammad, et al.  
-> “Machine-learning for photoplethysmography analysis: Benchmarking feature, image, and signal-based approaches.”  
-> *Biomedical Signal Processing and Control*, 120, 109831, 2026.
-
----
-
-## Training
-
-Example command for training a model:
-
-```bash
-python train.py \
-    --data_dir path/to/preprocessed/data \
-    --model xresnet1d50_mcd \
-    --loss gnll \
-    --dropout_rate 0.04 \
-    --batch_size 512 \
-    --epochs 50 \
-    --lr 1e-3 \
-    --seed 42
-```
-
-For MSE-based training:
-
-```bash
-python train.py \
-    --data_dir path/to/preprocessed/data \
-    --model xresnet1d50_mcd \
-    --loss mse \
-    --dropout_rate 0.04 \
-    --batch_size 512 \
-    --epochs 50 \
-    --lr 1e-3 \
-    --seed 42
-```
-
----
-
-## Evaluation
-
-Example command for evaluating a trained model:
-
-```bash
-python evaluate.py \
-    --checkpoint path/to/checkpoint.ckpt \
-    --test_data path/to/test/data \
-    --output_dir results/
-```
-
-For OOD evaluation:
-
-```bash
-python evaluate.py \
-    --checkpoint path/to/checkpoint.ckpt \
-    --test_data path/to/ood_dataset \
-    --dataset_name UCI \
-    --output_dir results/ood/
-```
-
----
-
-## Recalibration
-
-Example command for post-hoc recalibration:
-
-```bash
-python recalibrate.py \
-    --method conformal_prediction \
-    --calibration_data path/to/calibration/data \
-    --test_predictions path/to/predictions.csv \
-    --output_dir results/recalibrated/
-```
-
-Supported recalibration methods:
-
-```text
-conformal_prediction
-temperature_scaling
-isotonic_regression
-```
-
----
-
-## Results
-
-The experiments compare:
-
-- MSE vs. GNLL loss
-- Monte Carlo Dropout vs. Deep Ensembles
-- Different dropout rates
-- Native uncertainty vs. recalibrated uncertainty
-- ID vs. OOD performance
-
-The main reported metrics are:
-
-- SBP MAE
-- DBP MAE
-- SBP Winkler score
-- DBP Winkler score
-- Bootstrap confidence intervals
-
----
 
 ## Citation
 
 If you use this code or build on this work, please cite:
 
-```bibtex
-@article{moulaeifard2026uncertainty,
-  title={Uncertainty Reliability Under Domain Shift: An Investigation for Data-Driven Blood Pressure Estimation in Photoplethysmography},
-  author={Moulaeifard, Mohammad and Bench, Ciaran and Aston, Philip J. and Strodthoff, Nils},
-  year={2026}
-}
-```
+
 
 Please also cite the related preprocessing and benchmarking paper:
 
 ```bibtex
-@article{moulaeifard2026machine,
-  title={Machine-learning for photoplethysmography analysis: Benchmarking feature, image, and signal-based approaches},
-  author={Moulaeifard, Mohammad and Coquelin, Loic and Rinkevicius, Mantas and Sološenko, Andrius and Pfeffer, Oskar and Bench, Ciaran and Hegemann, Nando and Vardanega, Sara and Nandi, Manasi and Alastruey, Jordi and others},
-  journal={Biomedical Signal Processing and Control},
-  volume={120},
-  pages={109831},
-  year={2026}
+@article{moulaeifard2025generalizable,
+  title={Generalizable deep learning for photoplethysmography-based blood pressure estimation—A benchmarking study},
+  author={Moulaeifard, Mohammad and Charlton, Peter H and Strodthoff, Nils},
+  journal={Machine Learning: Health},
+  volume={1},
+  number={1},
+  pages={010501},
+  year={2025},
+  publisher={IOP Publishing}
 }
 ```
 
