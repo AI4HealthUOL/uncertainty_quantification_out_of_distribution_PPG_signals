@@ -23,10 +23,10 @@
 
 | key        | value                                                                                                                                                                       |
 |------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| dataset    |                                                                                                                                                                    |
+| dataset    | pulsedb_calibfree_vital                                                                                                                                                                   |
 | model      | xresnet1d50_MCD|
 | script     | .../required_codes_files/main_ppg.py                     |
 |train command    | `python main_ppg.py --data ./path/to/folder/with/six/final/files --input-size 1250 --architecture xresnet1d50_MCD --finetune-dataset pulsedb_calibfree_vital  --select-input-channel 0 --refresh-rate 1 --dr 0.4 --batch-size 512 --epoc 50 --normalize --seed $SEED`|
-| comment    |   you may need to change the  SEED number as well as droupout rate (--dr 0.4)    |
+| comment    |   you may need to change the  SEED number as well as droupout rate (--dr)    |
 
 
